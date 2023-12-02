@@ -1,6 +1,11 @@
+use std::time::Instant;
+
 fn main() {
+    let time = Instant::now();
     let input = include_str!("./input.txt");
+    println!("File read took: {:?}", time.elapsed());
     let calibration_value = find_calibration_value(input);
+    println!("Work: {:?}", time.elapsed());
     println!("{}", calibration_value);
 }
 
