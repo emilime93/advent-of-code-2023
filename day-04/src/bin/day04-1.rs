@@ -1,4 +1,3 @@
-use core::num;
 use std::str::FromStr;
 
 fn main() {
@@ -16,6 +15,7 @@ fn calculate_scratch_cards_win(input: &str) -> u32 {
         .sum()
 }
 
+#[derive(Debug)]
 struct Game {
     my_numbers: Vec<u32>,
     winning_numbers: Vec<u32>
@@ -25,15 +25,25 @@ impl FromStr for Game {
     type Err = String;
 
     fn from_str(s: &str) -> Result<Self, Self::Err> {
-        // let mut past_header = false;
-
-        // for char in chars
-        todo!()
+        let (_, card_numbers) = s.split_once(':').unwrap();
+        let (winning_numbers, my_numbers) = card_numbers.split_once('|').unwrap();
+        let winning_numbers: Vec<u32> = winning_numbers.trim().split(' ')
+            .filter(|i| !i.is_empty())
+            .map(|i|i.trim().parse::<u32>().expect("winning number wasn't a number"))
+            .collect();
+        let my_numbers: Vec<u32> = my_numbers.trim().split(' ')
+            .filter(|i| !i.is_empty())
+            .map(|i|i.trim().parse::<u32>().expect("winning number wasn't a number"))
+            .collect();
+        Ok(Game {my_numbers, winning_numbers })
     }
 }
 
 fn parse_game(line: &str) -> Game {
-    todo!()
+    match line.parse::<Game>() {
+        Ok(game) => return game,
+        Err(_) => panic!("Game not parseable")
+    }
 }
 
 fn calculate_game_win(game: Game) -> u32 {
@@ -46,7 +56,7 @@ fn calculate_game_win(game: Game) -> u32 {
     return if num_wins == 0 {
         0
     } else {
-        2^(num_wins-1)
+        u32::pow(2, num_wins - 1)
     }
 }
 

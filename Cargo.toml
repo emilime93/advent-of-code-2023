@@ -1,7 +1,3 @@
-[workspace.package]
-name = "advent-of-code-2023"
-description = "2023s Advent of Code in Rust 🦀"
-
 [workspace]
 members = ["day-*"]
 resolver = "2"
